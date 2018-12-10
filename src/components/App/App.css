@@ -1,3 +1,51 @@
 .App {
   text-align: center;
 }
+
+.nav {
+  margin: 0 auto;
+  width: 900px;
+}
+
+.nav__title {
+  display: inline;
+  color: #fff;
+}
+.nav__itemWrap {
+  float: right;
+  margin-top: 20px;
+  height: 26px;
+}
+
+.nav__item {
+  float: left;
+  width: 70px;
+  height: 26px;
+}
+.nav__item a {
+  width: 70px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  display: block;
+  padding: 0 10px;
+  background: none;
+  border-radius: 2px;
+  transition-property: background;
+  color: #fff;
+  font-size: 13px;
+}
+.nav__item a:hover {
+  background: #e1e1e1;
+  color: #555;
+}
+
+/*footer--start*/
+.footer {
+  right: 0;
+  left: 0;
+  bottom: 0;
+  position: relative;
+  width: 100%;
+}
+/*footer--end*/
