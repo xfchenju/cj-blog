@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import './Articles.css';
-import { Button, Icon } from 'antd';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import NoMatch from '../NoMatch';
 import ArticleNav from './ArticleNav';
 
 const data = [
@@ -21,8 +18,6 @@ const data = [
 export default class ArticleDetail extends Component {
 	constructor(props) {
 		super(props);
-		state: {
-		}
 	}
 	render() {
 		const { id } = this.props.match;
@@ -35,9 +30,9 @@ export default class ArticleDetail extends Component {
 		}
 		return (
 			<div className="article__detail">
-				<div className="article__detailTitle">{title}</div>
+				<h2 className="article__detailTitle">{title}{id}</h2>
 				<ArticleNav nav={nav} />
-				<div className="article__detailContent">{content}</div>
+				<p className="article__detailContent">{content}</p>
 			</div>
 		)
 	}

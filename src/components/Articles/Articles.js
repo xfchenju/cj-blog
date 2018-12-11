@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Articles.css';
-import { Icon } from 'antd';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import ArticleNav from './ArticleNav';
 
 const data = [
@@ -57,12 +56,13 @@ class Article extends Component {
 	}
 
 	linkToDetail = (id) => {
-		console.log('1')
-		console.log(id, 'id')
+		this.props.linkToDetail(id);
+		//this.props.router.push('/articles/detail/'+id);
+		//this.props.history.push('/articles/detail/'+id)
 	}
 
 	render() {
-		const { id, title, content, banner, category, tags, createdAt, hits, stars } = this.props.item;
+		const { id, title, content, banner, category, createdAt, hits, stars } = this.props.item;
 		const nav = {
 			createdAt: createdAt,
 			category: category,
@@ -71,22 +71,31 @@ class Article extends Component {
 		}
 		return (
 			<div className="article">
-				<h2 className="article__title">{title}</h2>
+				<h2 className="article__title" onClick={this.linkToDetail.bind(this, id)}>{title}</h2>
 				<ArticleNav nav={nav} />
 				<p className="article__content">{content}</p>
-				<Link className="article__btn" to='/articles/detail'>阅读全文&nbsp;»</Link>
-				<div className="article__banner"><img src={banner} /></div>
+				<Link className="article__btn" to={'/articles/detail/'+id}>阅读全文&nbsp;»</Link>
+				<div className="article__banner"><img src={banner} alt="" /></div>
 			</div>
 		);
 	}
 };
+withRouter(Article);
 
-const ArticleList = data.map(item => {
-	return (<Article key={item.id} item={item} />);
-})
+class Articles extends Component {
+	constructor(props) {
+		super(props);
+		console.log(this.props.history)
+	}
 
-export default class Articles extends Component {
+	linkToDetail = (id) => {
+		this.props.history.push('/articles/detail/'+id);
+	}
+
 	render() {
+		const ArticleList = data.map(item => {
+			return (<Article key={item.id} item={item} linkToDetail={this.linkToDetail} />);
+		})
 		return (
 			<div className="articles">
 				{ArticleList}
@@ -95,3 +104,5 @@ export default class Articles extends Component {
 		);
 	}
 }
+
+export default Articles;

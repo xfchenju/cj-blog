@@ -10,6 +10,7 @@
 .nav__title {
   display: inline;
   color: #fff;
+  cursor: pointer;
 }
 .nav__itemWrap {
   float: right;
