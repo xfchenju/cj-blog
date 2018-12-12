@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Articles.css';
 import { Link, withRouter } from 'react-router-dom';
 import ArticleNav from './ArticleNav';
+import { getArticlesList } from '../../http/api';
 
 const data = [
 	{
@@ -11,8 +12,8 @@ const data = [
 		'banner': 'http://blog.gdfengshuo.com/images/post/wms.png',
 		'category': '前端',
 		'tags': ['html', 'css', 'react'],
-		'createdAt': '2018-09-12',
-		'hits': '222',
+		'created_at': '2018-09-12',
+		'viewCount': '222',
 		'stars': '99'
 	},
 	{
@@ -22,8 +23,8 @@ const data = [
 		'banner': 'http://blog.gdfengshuo.com/images/post/wms.png',
 		'category': '前端',
 		'tags': ['html', 'css', 'react'],
-		'createdAt': '2018-09-12',
-		'hits': '222',
+		'created_at': '2018-09-12',
+		'viewCount': '222',
 		'stars': '99'
 	},
 	{
@@ -33,8 +34,8 @@ const data = [
 		'banner': 'http://blog.gdfengshuo.com/images/post/wms.png',
 		'category': '前端',
 		'tags': ['html', 'css', 'react'],
-		'createdAt': '2018-09-12',
-		'hits': '222',
+		'created_at': '2018-09-12',
+		'viewCount': '222',
 		'stars': '99'
 	},
 	{
@@ -44,8 +45,8 @@ const data = [
 		'banner': 'http://blog.gdfengshuo.com/images/post/wms.png',
 		'category': '前端',
 		'tags': ['html', 'css', 'react'],
-		'createdAt': '2018-09-12',
-		'hits': '222',
+		'created_at': '2018-09-12',
+		'viewCount': '222',
 		'stars': '99'
 	}
 ];
@@ -62,11 +63,11 @@ class Article extends Component {
 	}
 
 	render() {
-		const { id, title, content, banner, category, createdAt, hits, stars } = this.props.item;
+		const { id, title, content, banner, category, created_at, viewCount, stars } = this.props.item;
 		const nav = {
-			createdAt: createdAt,
+			created_at: created_at,
 			category: category,
-			hits: hits,
+			viewCount: viewCount,
 			stars: stars,
 		}
 		return (
@@ -85,15 +86,33 @@ withRouter(Article);
 class Articles extends Component {
 	constructor(props) {
 		super(props);
-		console.log(this.props.history)
+		this.state = {
+			articlesList: []
+		}
+		console.log(this.props.history);
+		this._getArticlesList();
+	}
+
+	// 获取列表数据
+	_getArticlesList = () => {
+		getArticlesList().then((res)=>{
+			let code = res.data.code;
+			let msg = res.data.msg;
+			if(code === 200) {
+				this.setState({
+					articlesList: res.data.data.articles
+				});
+			}
+		})
 	}
 
 	linkToDetail = (id) => {
 		this.props.history.push('/articles/detail/'+id);
 	}
-
+	
 	render() {
-		const ArticleList = data.map(item => {
+		const { articlesList } = this.state;
+		const ArticleList = articlesList.map(item => {
 			return (<Article key={item.id} item={item} linkToDetail={this.linkToDetail} />);
 		})
 		return (

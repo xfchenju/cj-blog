@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Categories.css';
 import { Link } from 'react-router-dom';
+import { getArticlesById } from '../../http/api';
 
 const data = [
 	{
@@ -30,18 +31,42 @@ const data = [
 class CategoryDetail extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			articlesList: [],
+			categoryInfo: {}
+		}
+		this._getArticlesById();
 	}
+
+	// 获取分类列表
+	_getArticlesById = () => {
+		let data = {
+			category: this.props.match.params.cid
+		}
+		getArticlesById(data).then((res)=>{
+			let code = res.data.code;
+			let msg = res.data.msg;
+			if(code === 200) {
+				this.setState({
+					articlesList: res.data.data.articles,
+					categoryInfo: res.data.data.category
+				});
+			}
+		})
+	}
+
 	render() {
-		const categories = data[0]['articles'].map(item => {
+		const { articlesList, categoryInfo } = this.state;
+		const categories = articlesList.map(item => {
 			return  <li key={item.id}>
-						{item.date}<Link to={'/articles/detail/'+item.artId}>&nbsp;{item.title}</Link>
+						{item.date}<Link to={'/articles/detail/'+item.id}>&nbsp;{item.title}</Link>
 					</li>
 		})
 		return (
 			<div className="categories">
 				<div className="categories__title">
-					<h1>{data[0].name}分类</h1>
-					<h4>总计{data[0].articles.length}篇文章</h4>
+					<h1>{this.props.match.params.cid}分类</h1>
+					<h4>总计{articlesList.length}篇文章</h4>
 				</div>
 				<ul className="categories__itemWrap categories__itemWrap--detail">
 					{categories}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Articles.css';
 import ArticleNav from './ArticleNav';
+import { getArticleDetail } from '../../http/api';
 
 const data = [
 	{
@@ -10,29 +11,49 @@ const data = [
 		'banner': 'http://blog.gdfengshuo.com/images/post/wms.png',
 		'category': '前端',
 		'tags': ['html', 'css', 'react'],
-		'createdAt': '2018-09-12',
-		'hits': '222',
+		'created_at': '2018-09-12',
+		'viewCount': '222',
 		'stars': '99'
 	},
 ]
 export default class ArticleDetail extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			detail: {}
+		}
+		this._getArticleDetail();
 	}
+
+	// 获取文章详情
+	_getArticleDetail = () => {
+		let data = {
+			id: this.props.match.params.id
+		}
+		getArticleDetail(data).then((res)=>{
+			let code = res.data.code;
+			let msg = res.data.msg;
+			if(code === 200) {
+				this.setState({
+					detail: res.data.data.detail
+				});
+			}
+		})
+	}
+
 	render() {
-		const { id } = this.props.match;
-		const { title, content, createdAt, category, hits, stars } = data[0];
+		const { title, content, created_at, category, viewCount, stars } = this.state.detail;
 		const nav = {
-			createdAt: createdAt,
+			created_at: created_at,
 			category: category,
-			hits: hits,
+			viewCount: viewCount,
 			stars: stars,
 		}
 		return (
 			<div className="article__detail">
-				<h2 className="article__detailTitle">{title}{id}</h2>
+				<h2 className="article__detailTitle">{title}</h2>
 				<ArticleNav nav={nav} />
-				<p className="article__detailContent">{content}</p>
+				<p className="article__detailContent" dangerouslySetInnerHTML={{ __html:content}}>{}</p>
 			</div>
 		)
 	}
