@@ -53,7 +53,7 @@ export default class ArticleDetail extends Component {
 			<div className="article__detail">
 				<h2 className="article__detailTitle">{title}</h2>
 				<ArticleNav nav={nav} />
-				<p className="article__detailContent" dangerouslySetInnerHTML={{ __html:content}}>{}</p>
+				<p className="article__detailContent" dangerouslySetInnerHTML={{ __html:content}}></p>
 			</div>
 		)
 	}

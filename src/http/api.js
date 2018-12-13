@@ -4,10 +4,14 @@ import { post, get } from './config';
 export const getArticlesList = params => get('/api/v1/home/articles/get-articles', params);
 // 根据分类id获取文章列表
 export const getArticlesById = params => get('/api/v1/home/articles/get-articles-by-category-id', params);
+// 根据标签获取文章列表
+export const getArticlesByTag = params => get('/api/v1/home/articles/get-articles-by-tag', params);
 // 获取文章详情
 export const getArticleDetail = params => get('/api/v1/home/articles/get-article-detail', params);
 // 获取分类列表
 export const getCategoriesList = params => get('/api/v1/home/categories/get-categories', params);
+// 获取标签列表
+export const getTagsList = params => get('/api/v1/home/tags/get-tags', params);
 
 
 // /*通用*/

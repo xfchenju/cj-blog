@@ -7,6 +7,8 @@ import Articles from '../Articles/Articles'
 import ArticleDetail from '../Articles/ArticleDetail';
 import Categories from '../Categories/Categories';
 import CategoryDetail from '../Categories/CategoryDetail';
+import Tags from '../Tags/Tags';
+import TagDetail from '../Tags/TagDetail';
 import About from '../About/About';
 import TodoList from '../TodoList';
 import './App.css';
@@ -58,6 +60,8 @@ class App extends Component {
               <Route path="/about" component={About}></Route>
               <Route exact path="/categories" component={Categories}></Route>
               <Route path="/categories/:cid" component={CategoryDetail}></Route>
+              <Route exact path="/tags" component={Tags}></Route>
+              <Route path="/tags/:tid" component={TagDetail}></Route>
               <Route path="/todo" component={TodoList}></Route>
               <Route component={NoMatch}></Route>
             </Switch>

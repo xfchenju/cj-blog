@@ -64,6 +64,7 @@ class Article extends Component {
 
 	render() {
 		const { id, title, content, banner, category, created_at, viewCount, stars } = this.props.item;
+		let contentHTML = content.replace(/<\/?.+?>/g,"");
 		const nav = {
 			created_at: created_at,
 			category: category,
@@ -74,7 +75,7 @@ class Article extends Component {
 			<div className="article">
 				<h2 className="article__title" onClick={this.linkToDetail.bind(this, id)}>{title}</h2>
 				<ArticleNav nav={nav} />
-				<p className="article__content">{content}</p>
+				<p className="article__content">{contentHTML.length > 130 ? contentHTML.substr(0, 130) + '...' : contentHTML}</p>
 				<Link className="article__btn" to={'/articles/detail/'+id}>阅读全文&nbsp;»</Link>
 				<div className="article__banner"><img src={banner} alt="" /></div>
 			</div>
